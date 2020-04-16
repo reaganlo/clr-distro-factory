@@ -43,7 +43,10 @@ for ver in "${mca_versions[@]:1}"; do
     # staged, so the baseurl must be overridden to use the staged
     # repo instead of the work repo.
     if [[ "${prev_ver}" -eq "${mca_versions[0]}" ]]; then
-        args+=" --from-repo-url ${CONTENT_REPO}=file://${STAGING_DIR}/releases/${prev_ver}/repo/x86_64/os"
+        base_url=${STAGING_DIR}/releases/${prev_ver}/repo/x86_64/os
+        createrepo_c "${base_url}"
+        args+=" --from-repo-url ${CONTENT_REPO}=file://${base_url}"
+        #args+=" --from-repo-url ${CONTENT_REPO}=file://${STAGING_DIR}/releases/${prev_ver}/repo/x86_64/os"
     fi
 
     section "Report from '${prev_ver}' to '${ver}'"
