@@ -168,3 +168,15 @@ if (( mixer_major_ver < MIXER_MAJOR_VER )); then
     error "Aborting build to avoid corrupting your mixer workspace"
     exit 1
 fi
+mixer_minor_ver=$(mixer --version | sed -E -e 's/.*.*([0-9]+).[0-9]+$/\1/')
+if (( mixer_minor_ver < MIXER_MINOR_VER )); then
+    error "Unsupported Mixer Version" "Mixer minor version needs to be ${MIXER_MINOR_VER} or greater"
+    error "Aborting build to avoid corrupting your mixer workspace"
+    exit 1
+fi
+mixer_patch_ver=$(mixer --version | sed -E -e 's/.*.*.*([0-9]+$)/\1/')
+if (( mixer_patch_ver < MIXER_PATCH_VER )); then
+    error "Unsupported Mixer Version" "Mixer patch version needs to be ${MIXER_PATCH_VER} or greater"
+    error "Aborting build to avoid corrupting your mixer workspace"
+    exit 1
+fi
